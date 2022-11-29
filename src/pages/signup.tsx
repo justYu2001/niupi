@@ -7,7 +7,7 @@ const SignUp: NextPage = () => {
     return (
         <>
             <Head>
-                <title>牛啤購物-註冊</title>
+                <title>牛啤購物 - 註冊</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
