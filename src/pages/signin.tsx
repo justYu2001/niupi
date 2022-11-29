@@ -11,29 +11,33 @@ const SignIn: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div className="flex h-full flex-col bg-indian-yellow">
-                <header className="min-w-fit self-center text-black">
+            <div className="flex h-full flex-col bg-indian-yellow md:h-screen md:flex-row">
+                <header className="min-w-fit self-center text-black md:flex-1">
                     <Link href="/" legacyBehavior>
                         <a>
                             <Logo />
                         </a>
                     </Link>
-                    <div className="hidden text-center text-black">
-                        <p>北科最牛逼的購物平台</p>
-                        <small>Best Shopping Platform Made by NTUT CSIE</small>
+                    <div className="hidden text-center text-black md:block">
+                        <p className="md:text-2xl">北科最牛逼的購物平台</p>
+                        <small className="md:text-lg">
+                            Best Shopping Platform Made by NTUT CSIE
+                        </small>
                     </div>
                 </header>
 
-                <main className="mt-3 flex-1 rounded-t-[2.5rem] bg-white py-5 px-6">
-                    <Form />
-                    <Link href="/signup">
-                        <p className="mt-1 text-center">
-                            還沒有帳號嗎？
-                            <span className="cursor-pointer underline">
-                                點此註冊
-                            </span>
-                        </p>
-                    </Link>
+                <main className="mt-3 flex-1 rounded-t-[2.5rem] bg-white py-5 px-6 md:m-0 md:flex md:flex-col md:justify-center md:rounded-none md:p-0">
+                    <div className="md:px-40">
+                        <Form />
+                        <Link href="/signup">
+                            <p className="mt-1 text-center">
+                                還沒有帳號嗎？
+                                <span className="cursor-pointer underline">
+                                    點此註冊
+                                </span>
+                            </p>
+                        </Link>
+                    </div>
                 </main>
             </div>
         </>
@@ -45,7 +49,7 @@ export default SignIn;
 function Logo() {
     return (
         <div className="flex items-center justify-center">
-            <div className="relative h-36 w-36">
+            <div className="relative h-36 w-36 md:h-48 md:w-48">
                 <Image
                     src="/images/niupi-logo-black.png"
                     layout="fill"
@@ -53,10 +57,10 @@ function Logo() {
                     alt="logo"
                 />
             </div>
-            <div className="relative px-2 py-4 text-right leading-none text-black">
+            <div className="relative px-2 py-4 text-right leading-none text-black md:pb-8 md:pt-6">
                 <h1 className="text-3xl">牛啤購物</h1>
                 <small className="px-1 text-lg">Niupi</small>
-                <div className="absolute -left-4 right-0 bottom-1 block border-t border-black"></div>
+                <div className="absolute -left-4 right-0 bottom-1 block border-t border-black  md:-left-6"></div>
             </div>
         </div>
     );
@@ -74,7 +78,7 @@ function Form() {
                 <p className="mb-7 mt-1.5 h-4 text-lg text-red-500"></p>
                 <button
                     type="submit"
-                    className="my-3 rounded-md bg-black py-2 text-lg text-white"
+                    className="my-3 rounded-md bg-black py-2 text-lg text-white md:mt-4 md:mb-2.5"
                 >
                     登入
                 </button>
