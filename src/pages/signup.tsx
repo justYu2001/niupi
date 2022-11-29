@@ -18,7 +18,7 @@ const SignUp: NextPage = () => {
                             <Logo />
                         </a>
                     </Link>
-                    <div className="hidden text-center text-black">
+                    <div className="hidden text-center text-black md:block">
                         <p className="md:text-2xl">北科最牛逼的購物平台</p>
                         <small className="md:text-lg">
                             Best Shopping Platform Made by NTUT CSIE
@@ -32,7 +32,9 @@ const SignUp: NextPage = () => {
                         <Link href="/signin">
                             <p className="mt-1 text-center">
                                 已經是會員嗎？
-                                <span className="underline">點此登入</span>
+                                <span className="cursor-pointer underline">
+                                    點此登入
+                                </span>
                             </p>
                         </Link>
                     </div>
@@ -79,7 +81,7 @@ function Form() {
                 </div>
                 <button
                     type="submit"
-                    className="my-3 rounded-md bg-black py-2 text-lg text-white md:my-6"
+                    className="my-3 rounded-md bg-black py-2 text-lg text-white md:mt-4 md:mb-2.5"
                 >
                     註冊
                 </button>
