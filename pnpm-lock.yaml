@@ -10,6 +10,7 @@ specifiers:
   eslint: 8.22.0
   eslint-config-next: 12.3.1
   eslint-config-prettier: ^8.5.0
+  jsencrypt: ^3.3.1
   next: 12.3.1
   next-auth: ~4.10.2
   postcss: ^8.4.14
@@ -22,6 +23,7 @@ specifiers:
   zod: ^3.18.0
 
 dependencies:
+  jsencrypt: 3.3.1
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -1503,6 +1505,10 @@ packages:
     dependencies:
       argparse: 2.0.1
     dev: true
+
+  /jsencrypt/3.3.1:
+    resolution: {integrity: sha512-dVvV54GdFuJgmEKn+oBiaifDMen4p6o6j/lJh0OVMcouME8sST0bJ7bldIgKBQk4za0zyGn0/pm4vOznR25mLw==}
+    dev: false
 
   /json-schema-traverse/0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
