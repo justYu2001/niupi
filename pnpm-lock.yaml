@@ -4,7 +4,6 @@ specifiers:
   '@tanstack/react-query': ^4.19.1
   '@types/node': 18.0.0
   '@types/node-rsa': ^1.1.1
-  '@types/pako': ^2.0.0
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
   '@typescript-eslint/eslint-plugin': ^5.33.0
@@ -18,7 +17,6 @@ specifiers:
   next: 12.3.1
   next-auth: ~4.10.2
   node-rsa: ^1.1.1
-  pako: ^2.1.0
   postcss: ^8.4.14
   prettier: 2.7.1
   prettier-plugin-tailwindcss: ^0.1.13
@@ -35,7 +33,6 @@ dependencies:
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.10.3_biqbaboplfbrettd7655fr4n2y
   node-rsa: 1.1.1
-  pako: 2.1.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   zod: 3.19.1
@@ -43,7 +40,6 @@ dependencies:
 devDependencies:
   '@types/node': 18.0.0
   '@types/node-rsa': 1.1.1
-  '@types/pako': 2.0.0
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
   '@typescript-eslint/eslint-plugin': 5.39.0_fbzrb3mx6vzqsr2yqelg57y2hy
@@ -310,10 +306,6 @@ packages:
 
   /@types/node/18.0.0:
     resolution: {integrity: sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==}
-    dev: true
-
-  /@types/pako/2.0.0:
-    resolution: {integrity: sha512-10+iaz93qR5WYxTo+PMifD5TSxiOtdRaxBf7INGGXMQgTCu8Z/7GYWYFUOS3q/G0nE5boj1r4FEB+WSy7s5gbA==}
     dev: true
 
   /@types/prop-types/15.7.5:
@@ -1936,10 +1928,6 @@ packages:
     dependencies:
       p-limit: 3.1.0
     dev: true
-
-  /pako/2.1.0:
-    resolution: {integrity: sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==}
-    dev: false
 
   /parent-module/1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
