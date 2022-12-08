@@ -1,12 +1,14 @@
 import { FormEvent, HTMLInputTypeAttribute } from "react";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { unstable_getServerSession } from "next-auth";
 import { signIn, SignInResponse } from "next-auth/react";
 import { useMutation, type UseMutateFunction } from "@tanstack/react-query";
 
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import encrypt from "@/utils/encrypt";
 
 const SignIn: NextPage = () => {
@@ -176,3 +178,20 @@ function Input({ id, filedName, type = "text" }: InputProps) {
         </>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const session = await unstable_getServerSession(req, res, authOptions);
+
+    if (session) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
+};
