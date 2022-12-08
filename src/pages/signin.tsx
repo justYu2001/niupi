@@ -1,7 +1,13 @@
+import { FormEvent, HTMLInputTypeAttribute } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { signIn, SignInResponse } from "next-auth/react";
+import { useMutation, type UseMutateFunction } from "@tanstack/react-query";
+
+import encrypt from "@/utils/encrypt";
 
 const SignIn: NextPage = () => {
     return (
@@ -66,19 +72,81 @@ function Logo() {
     );
 }
 
+interface SignInFormData {
+    email: { value: string };
+    password: { value: string };
+}
+
+interface SignInAPIRequestBody {
+    email: string;
+    password: string;
+}
+
+type SubmitHandlerCallback = UseMutateFunction<
+    SignInResponse | undefined,
+    unknown,
+    SignInAPIRequestBody,
+    unknown
+>;
+
+const handleSubmit = (callback: SubmitHandlerCallback) => {
+    return async (event: FormEvent) => {
+        event.preventDefault();
+
+        const formData = event.target as typeof event.target & SignInFormData;
+
+        const encryptedPassword = await encrypt(formData.password.value);
+
+        const data: SignInAPIRequestBody = {
+            email: formData.email.value,
+            password: encryptedPassword,
+        };
+
+        callback(data);
+    };
+};
+
+const fetchSignInAPI = async ({ email, password }: SignInAPIRequestBody) => {
+    return await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: window.location.origin,
+    });
+};
+
 function Form() {
+    const router = useRouter();
+
+    const { data, isLoading, mutate } = useMutation({
+        mutationFn: fetchSignInAPI,
+        onSuccess(data) {
+            if (data?.ok) {
+                router.push("/");
+            }
+        },
+    });
+
     return (
         <>
             <h2 className="mt-2 text-center text-3xl font-medium tracking-wide">
                 登入
             </h2>
-            <form action="" className="flex flex-1 flex-col pb-2">
+            <form
+                method="post"
+                action="/api/auth/callback/credentials"
+                onSubmit={handleSubmit(mutate)}
+                className="flex flex-1 flex-col pb-2"
+            >
                 <Input id="email" filedName="電子郵件" />
-                <Input id="password" filedName="密碼" />
-                <p className="mb-7 mt-1.5 h-4 text-lg text-red-500"></p>
+                <Input id="password" filedName="密碼" type="password" />
+                <p className="mb-7 mt-1.5 h-4 text-lg text-red-500">
+                    {data?.error}
+                </p>
                 <button
+                    disabled={isLoading || data?.ok}
                     type="submit"
-                    className="my-3 rounded-md bg-black py-2 text-lg text-white md:mt-4 md:mb-2.5"
+                    className="my-3 rounded-md bg-black py-2 text-lg text-white disabled:bg-black/50 md:mt-4 md:mb-2.5"
                 >
                     登入
                 </button>
@@ -90,16 +158,17 @@ function Form() {
 interface InputProps {
     filedName: string;
     id: string;
+    type?: HTMLInputTypeAttribute;
 }
 
-function Input({ filedName, id }: InputProps) {
+function Input({ id, filedName, type = "text" }: InputProps) {
     return (
         <>
             <label htmlFor={id} className="my-2 text-lg">
                 {filedName}
             </label>
             <input
-                type="text"
+                type={type}
                 id={id}
                 autoComplete="off"
                 className="mb-2 border-2 border-slate-300 p-2 text-xl outline-none transition-all duration-300 focus:border-indian-yellow"
