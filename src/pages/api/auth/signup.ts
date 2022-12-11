@@ -44,8 +44,8 @@ export default async function handler(
     const { email, username, password } = request.body;
 
     try {
-        const validFormatEmail = validateEmailFormat(email);
         const validFormatUsername = validateUsernameFormat(username);
+        const validFormatEmail = validateEmailFormat(email);
         const validFormatPassword = validatePasswordFormat(password);
 
         const { data, status } = await fetchSignUpAPI({

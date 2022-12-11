@@ -61,5 +61,5 @@ export enum AuthError {
     INVALID_EMAIL_OR_PASSWORD = "電子郵件或密碼錯誤",
     INVALID_EMAIL_FORMAT = "請輸入正確的電子郵件格式",
     INVALID_PASSWORD_FORMAT = "密碼欄位不能為空",
-    INVALID_USERNAME_FORMAT = "使用者欄位不能為空",
+    INVALID_USERNAME_FORMAT = "使用者名稱欄位不能為空",
 }
