@@ -3,12 +3,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AxiosRequestConfig } from "axios";
 
 import api from "@/utils/api";
-import decrypt from "@/utils/decrypt";
 import {
-    EmailSchema,
-    PasswordSchema,
+    AuthError,
     UserSchema,
-    SignInError,
+    validateEmailFormat,
+    validatePasswordFormat,
 } from "@/utils/auth";
 
 export const authOptions: NextAuthOptions = {
@@ -48,23 +47,14 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
-                const parsedEmail = EmailSchema.safeParse(credentials.email);
+                const { email, password } = credentials;
 
-                if (!parsedEmail.success) {
-                    throw new Error(SignInError.ERROR_EMAIL_FORMAT);
-                }
-
-                const decryptedPassword = decrypt(credentials.password);
-                const parsedPassword =
-                    PasswordSchema.safeParse(decryptedPassword);
-
-                if (!parsedPassword.success) {
-                    throw new Error(SignInError.ERROR_PASSWORD_FORMAT);
-                }
+                const validFormatEmail = validateEmailFormat(email);
+                const validFormatPassword = validatePasswordFormat(password);
 
                 const response = await fetchSignInAPI({
-                    email: parsedEmail.data,
-                    password: parsedPassword.data,
+                    email: validFormatEmail,
+                    password: validFormatPassword,
                 });
 
                 if (response.success) {
@@ -126,7 +116,7 @@ const fetchSignInAPI: FetchSignInAPIFunction = async (data) => {
         success = true;
         user = parsedUser.data;
     } else if (response.status === 400) {
-        throw new Error(SignInError.INVALID_EMAIL_OR_PASSWORD);
+        throw new Error(AuthError.INVALID_EMAIL_OR_PASSWORD);
     }
 
     return {

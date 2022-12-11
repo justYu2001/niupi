@@ -1,7 +1,14 @@
+import { FormEvent, HTMLInputTypeAttribute } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { type UseMutateFunction, useMutation } from "@tanstack/react-query";
+
+import { SignUpAPIRequestBody, type User } from "@/utils/auth";
+import encrypt from "@/utils/encrypt";
 
 const SignUp: NextPage = () => {
     return (
@@ -66,22 +73,77 @@ function Logo() {
     );
 }
 
+interface SignUpFormData {
+    email: { value: string };
+    username: { value: string };
+    password: { value: string };
+}
+
+type SubmitHandlerCallback = UseMutateFunction<
+    AxiosResponse,
+    unknown,
+    SignUpAPIRequestBody,
+    unknown
+>;
+
+const handleSubmit = (callback: SubmitHandlerCallback) => {
+    return async (event: FormEvent) => {
+        event.preventDefault();
+
+        const formData = event.target as typeof event.target & SignUpFormData;
+        const encryptedPassword = await encrypt(formData.password.value);
+
+        callback({
+            username: formData.username.value,
+            email: formData.email.value,
+            password: encryptedPassword,
+        });
+    };
+};
+
+const fetchSignUpAPI = (requestBody: SignUpAPIRequestBody) => {
+    return axios.post<User>("api/auth/signup", requestBody);
+};
+
 function Form() {
+    const { data, isLoading, mutate, error } = useMutation<
+        AxiosResponse<User>,
+        AxiosError<string>,
+        SignUpAPIRequestBody
+    >({
+        mutationFn: fetchSignUpAPI,
+        onSuccess: async ({ data }, requestBody) => {
+            signIn("credentials", {
+                email: data.email,
+                password: requestBody.password,
+                callbackUrl: window.location.origin,
+            });
+        },
+    });
+
     return (
         <>
             <h2 className="mt-2 text-center text-3xl font-medium tracking-wide">
                 註冊
             </h2>
-            <form action="" className="flex flex-col pb-2">
+            <form
+                action="/api/auth/signup"
+                method="POST"
+                className="flex flex-col pb-2"
+                onSubmit={handleSubmit(mutate)}
+            >
                 <div className="flex flex-col">
                     <Input id="username" filedName="使用者名稱" />
                     <Input id="email" filedName="電子郵件" />
-                    <Input id="password" filedName="密碼" />
-                    <p className="mb-7 mt-1.5 h-4 text-lg text-red-500"></p>
+                    <Input id="password" filedName="密碼" type="password" />
+                    <p className="mb-7 mt-1.5 h-4 text-lg text-red-500">
+                        {error?.response?.data}
+                    </p>
                 </div>
                 <button
                     type="submit"
-                    className="my-3 rounded-md bg-black py-2 text-lg text-white md:mt-4 md:mb-2.5"
+                    disabled={isLoading || data?.status === 200}
+                    className="my-3 rounded-md bg-black py-2 text-lg text-white disabled:bg-black/50 md:mt-4 md:mb-2.5"
                 >
                     註冊
                 </button>
@@ -93,16 +155,17 @@ function Form() {
 interface InputProps {
     filedName: string;
     id: string;
+    type?: HTMLInputTypeAttribute;
 }
 
-function Input({ filedName, id }: InputProps) {
+function Input({ filedName, id, type = "text" }: InputProps) {
     return (
         <>
             <label htmlFor={id} className="my-2 text-lg">
                 {filedName}
             </label>
             <input
-                type="text"
+                type={type}
                 id={id}
                 autoComplete="off"
                 className="mb-2 border-2 border-slate-300 p-2 text-xl outline-none transition-all duration-300 focus:border-indian-yellow"

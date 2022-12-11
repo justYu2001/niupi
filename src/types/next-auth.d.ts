@@ -1,10 +1,9 @@
 import { DefaultSession, DefaultUser } from "next-auth";
-import { z } from "zod";
 
-import { UserSchema } from "@/utils/auth";
+import { type User as TUser } from "@/utils/auth";
 
 declare module "next-auth" {
-    interface User extends z.infer<typeof UserSchema>, DefaultUser {}
+    interface User extends TUser, DefaultUser {}
 
     /**
      * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
