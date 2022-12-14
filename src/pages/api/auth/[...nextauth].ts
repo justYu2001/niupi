@@ -15,6 +15,7 @@ export const authOptions: NextAuthOptions = {
         jwt({ token, user }) {
             if (user) {
                 token.name = user.username;
+                token.storeId = user.storeId;
             }
 
             return token;
@@ -23,6 +24,7 @@ export const authOptions: NextAuthOptions = {
             if (session.user && token.sub) {
                 session.user.id = token.sub;
                 session.user.name = token.name;
+                session.user.storeId = token.storeId;
                 session.user.image = null;
             }
 
