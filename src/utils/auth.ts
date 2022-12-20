@@ -46,6 +46,7 @@ export const UserSchema = z.object({
     address: z.string().nullable(),
     cellphoneNumber: z.string().nullable(),
     roleId: z.number().nonnegative().lte(1),
+    storeId: z.string().uuid(),
 });
 
 export type User = z.infer<typeof UserSchema>;

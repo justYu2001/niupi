@@ -1,5 +1,6 @@
 import { useState } from "react";
-import type { AppType } from "next/app";
+import type { NextPageWithLayout } from "next";
+import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import {
@@ -10,17 +11,26 @@ import {
 
 import "@/styles/globals.css";
 
-const MyApp: AppType<{ session: Session | null }> = ({
+type MyAppProps = AppProps & {
+    Component: NextPageWithLayout;
+    pageProps: {
+        session: Session | null;
+    };
+};
+
+const MyApp = ({
     Component,
     pageProps: { session, ...pageProps },
-}) => {
+}: MyAppProps) => {
+    const getLayout = Component.getLayout ?? ((page) => page);
+
     const [queryClient] = useState(() => new QueryClient());
 
     return (
         <QueryClientProvider client={queryClient}>
             <Hydrate>
                 <SessionProvider session={session}>
-                    <Component {...pageProps} />
+                    {getLayout(<Component {...pageProps} />)}
                 </SessionProvider>
             </Hydrate>
         </QueryClientProvider>

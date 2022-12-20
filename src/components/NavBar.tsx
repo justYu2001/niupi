@@ -12,9 +12,14 @@ export default function NavBar() {
             <nav>
                 <ul className="flex">
                     {isLoggedIn ? (
-                        <li className="mx-2">
-                            <button onClick={() => signOut()}>登出</button>
-                        </li>
+                        <>
+                            <li className="mx-2">
+                                <Link href="/seller">賣家中心</Link>
+                            </li>
+                            <li className="mx-2">
+                                <button onClick={() => signOut()}>登出</button>
+                            </li>
+                        </>
                     ) : (
                         <>
                             <li className="mx-2">
