@@ -2,25 +2,19 @@ import { ChangeEvent, FocusEvent, useEffect, useState, useRef } from "react";
 import { NextPageWithLayout, GetStaticProps } from "next";
 import axios from "axios";
 import { IoIosArrowDown } from "react-icons/io";
-import { Session } from "next-auth";
 import { useQuery } from "@tanstack/react-query";
 
 import { env } from "@/env/server.mjs";
+import { useStoreId } from "@/hooks/store";
 import { getSellerDashboardLayout } from "@/layouts/SellerDashboardLayout";
 import type { County, Districts } from "@/utils/districts";
 import { type Store } from "@/utils/store";
 
-const fetchStoreProfileAPI = async () => {
-    const { data: session } = await axios.get<Session>("/api/auth/session");
+const fetchStoreProfileAPI = async (storeId: string) => {
+    const url = `/api/stores/${storeId}`;
+    const { data: store } = await axios.get<Store>(url);
 
-    if (session.user) {
-        const storeId = session.user.storeId;
-        const { data: store } = await axios.get<Store>(`/api/stores/${storeId}`);
-
-        return store;
-    }
-
-    throw new Error("No Session");
+    return store;
 };
 
 interface StoreProfilePageProps {
@@ -34,9 +28,13 @@ const StoreProfile: NextPageWithLayout<StoreProfilePageProps> = ({
 }) => {
     const [county, setCounty] = useState<County>("選擇縣市");
 
-    const { data: store, isLoading } = useQuery(
-        ["store"],
-        fetchStoreProfileAPI
+    const { storeId } = useStoreId();
+
+    const { data: store, isLoading } = useQuery({
+            queryKey: ["store", storeId],
+            queryFn: () => fetchStoreProfileAPI(storeId as string),
+            enabled: !!storeId,
+        }
     );
 
     if (isLoading) {

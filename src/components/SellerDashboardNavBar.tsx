@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import useSession from "@/hooks/session";
 
 export default function SellerDashboardNavBar() {
-    const session = useSession();
+    const { session, isLoading } = useSession();
 
     return (
         <header className="flex items-center justify-between bg-white py-2 px-4">
@@ -12,7 +12,12 @@ export default function SellerDashboardNavBar() {
                     <Logo />
                 </a>
             </Link>
-            <p className="px-4">{session.data?.user?.name}</p>
+
+            {isLoading ? (
+                <p className="h-4 w-20 animate-pulse rounded-full bg-slate-200"></p>
+            ) : (
+                <p className="px-4">{session?.user?.name}</p>
+            )}
         </header>
     );
 }
