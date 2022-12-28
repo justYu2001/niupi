@@ -6,3 +6,37 @@ html {
     font-size: 16px;
     background-color: #eee;
 }
+
+.uploadcare--button_primary,
+.uploadcare--button_primary:hover,
+.uploadcare--button_primary:focus,
+.uploadcare--preview__done{
+    background: #ecad62;
+    @apply border-indian-yellow bg-indian-yellow cursor-pointer outline-none;
+}
+
+.uploadcare--preview__back,
+.uploadcare--preview__back:hover,
+.uploadcare--panel__show-files,
+.uploadcare--panel__show-files:hover {
+    @apply border-indian-yellow text-indian-yellow cursor-pointer;
+}
+
+.uploadcare--panel__footer {
+    @apply bg-white;
+}
+
+.uploadcare--button_muted:hover,
+.uploadcare--menu__item:hover,
+.uploadcare--file:hover .uploadcare--file__name,
+.uploadcare--file__description:hover .uploadcare--file__preview {
+    @apply text-indian-yellow;
+}
+
+.uploadcare--button_muted:focus, {
+    @apply text-indian-yellow outline-none;
+}
+
+.uploadcare--file:hover {
+    @apply bg-indian-yellow/20;
+}

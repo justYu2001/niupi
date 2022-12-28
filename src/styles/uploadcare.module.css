@@ -1,0 +1,3 @@
+.upload-button :global(.uploadcare--widget__button) {
+    @apply hidden;
+}

@@ -3,7 +3,7 @@ interface InputProps {
     name: string;
     id: string;
     className?: string;
-    defaultValue: string | null | undefined;
+    defaultValue?: string | null | undefined;
 }
 
 function Input({
