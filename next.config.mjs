@@ -18,4 +18,14 @@ export default defineNextConfig({
         locales: ["en"],
         defaultLocale: "en",
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "ucarecdn.com",
+                port: "",
+                pathname: "**",
+            }
+        ],
+    }
 });
