@@ -7,6 +7,16 @@ html {
     background-color: #eee;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .uploadcare--button_primary,
 .uploadcare--button_primary:hover,
 .uploadcare--button_primary:focus,

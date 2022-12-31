@@ -2,6 +2,7 @@ interface InputProps {
     fieldName: string;
     name: string;
     id: string;
+    type?: string;
     className?: string;
     defaultValue?: string | null | undefined;
 }
@@ -11,6 +12,7 @@ function Input({
     name,
     id,
     defaultValue,
+    type = "text",
     className = "",
 }: InputProps) {
     return (
@@ -22,7 +24,7 @@ function Input({
                 {fieldName}
             </label>
             <input
-                type="text"
+                type={type}
                 defaultValue={defaultValue ?? ""}
                 id={id}
                 name={name}

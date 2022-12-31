@@ -45,6 +45,7 @@ function PhotoUploader() {
             >
                 商品圖片
             </label>
+            <input type="hidden" name="photoIds" value={photoIds.join()} />
             <div
                 className="flex cursor-pointer items-center justify-between rounded border-2 border-dashed border-slate-300 p-3"
                 onClick={openFileUploader}
