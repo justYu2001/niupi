@@ -5,14 +5,14 @@ import { z } from "zod";
 import api from "@/utils/api";
 import APIRouter from "@/utils/api-router";
 
-const fetchItems = (storeId: string, keyword: string) => {
-    const url = `/stores/${storeId}/items?keyword=${keyword}`;
+const fetchItems = (storeId: string, keyword: string | null) => {
+    const url = `/stores/${storeId}/items?${keyword ? `?keyword=${keyword}` : ""}`;
     return api.get(url);
 };
 
 const ItemSearchQuerySchema = z.object({
     storeId: z.string(),
-    keyword: z.string(),
+    keyword: z.string().nullable(),
 });
 
 const searchItems: NextApiHandler = async (request, response) => {
