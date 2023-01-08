@@ -10,6 +10,7 @@ import { Item } from "@/utils/item";
 const searchItems = (storeId: string | undefined, keyword: string) => {
     if (storeId) {
         const url = `/api/stores/${storeId}/items${keyword === "" ? "" : `?keyword=${keyword}`}`;
+        
         return async () => {
             const { data } = await axios.get<Item[]>(url);
             return data;
